@@ -7,8 +7,6 @@ import {BrowserRouter,Route,Switch,Redirect} from 'react-router-dom'
 import './config'
 
 
-import Auth from './auth'
-import Dashboard from './dashboard'
 import reducers from './reducer'
 
 let store = createStore(reducers,compose(
@@ -21,11 +19,7 @@ ReactDOM.render(
     <Provider  store={store}>
       <BrowserRouter>
         <div>
-          <Switch>
-            <Route path={'/auth'} component={Auth}></Route>
-            <Route path={'/dashboard'} component={Dashboard}></Route>
-            <Redirect to={'/dashboard'}></Redirect>
-          </Switch>
+          <h1>hello my App!</h1>
           
         </div>
       </BrowserRouter>
