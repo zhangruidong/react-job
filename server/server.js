@@ -1,18 +1,23 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require('express')
+const userRouter = require('./user')
 
-// 连接mongo
-const DB_URL = 'mongodb://127.0.0.1:27017';
-mongoose.connect(DB_URL);
-mongoose.connection.on('connected',function() {
-  console.log('mongo connect successful')
+//  新建app
+const app = express();
+
+// 开启一个中间件
+app.use('/user',userRouter)
+
+app.listen(9090,function() {
+  console.log('port 9090 is connecting!')
 });
 
+
+
 // 类似于mysql的表 mongo里有文档、字段的概念
-const User = mongoose.model('user',new mongoose.Schema({
-  user:{type:String,require:true},
-  age:{type:Number,require:true},
-}));
+// const User = mongoose.model('user',new mongoose.Schema({
+//   user:{type:String,require:true},
+//   age:{type:Number,require:true},
+// }));
 
 // add
 // User.create({
@@ -37,60 +42,55 @@ const User = mongoose.model('user',new mongoose.Schema({
 
 
 
-//  新建app
-const app = express();
 
-app.get('/',function(err,res) {
-  res.send('<h1>Hello Mongoose</h1>')
-});
-
-app.get('/data',function(err,res) {
-  User.find({},function(err,doc) {
-    if(!err){
-      res.json(doc)
-    }
-  })
-});
-app.get('/one',function(err,res) {
-  User.findOne({},function(err,doc) {
-    if(!err){
-      res.json(doc)
-    }
-  })
-});
-app.get('/add',function(err,res) {
-  User.create({user:'Jack',age:54},function(err,doc) {
-    if(!err){
-      console.log(doc);
-      res.json(doc);
-    }else {
-      console.log(err)
-    }
-  })
-})
-
-app.get('/remove',function(err,res) {
-  User.remove({user:"Jack"},function(err,doc) {
-    if(!err){
-      console.log(doc);
-      res.json(doc);
-    }else {
-      console.log(err)
-    }
-  })
-})
-
-app.get('/update',function(err,res) {
-  User.update({age:54},{'$set':{age:28}},function(err,doc) {
-    if(!err){
-      console.log(doc);
-      res.json(doc);
-    }else {
-      console.log(err);
-    }
-  })
-})
-
-app.listen(9090,function() {
-  console.log('port 9090 is connecting!')
-});
+//
+// app.get('/',function(err,res) {
+//   res.send('<h1>Hello Mongoose</h1>')
+// });
+//
+// app.get('/data',function(err,res) {
+//   User.find({},function(err,doc) {
+//     if(!err){
+//       res.json(doc)
+//     }
+//   })
+// });
+// app.get('/one',function(err,res) {
+//   User.findOne({},function(err,doc) {
+//     if(!err){
+//       res.json(doc)
+//     }
+//   })
+// });
+// app.get('/add',function(err,res) {
+//   User.create({user:'Jack',age:54},function(err,doc) {
+//     if(!err){
+//       console.log(doc);
+//       res.json(doc);
+//     }else {
+//       console.log(err)
+//     }
+//   })
+// })
+//
+// app.get('/remove',function(err,res) {
+//   User.remove({user:"Jack"},function(err,doc) {
+//     if(!err){
+//       console.log(doc);
+//       res.json(doc);
+//     }else {
+//       console.log(err)
+//     }
+//   })
+// })
+//
+// app.get('/update',function(err,res) {
+//   User.update({age:54},{'$set':{age:28}},function(err,doc) {
+//     if(!err){
+//       console.log(doc);
+//       res.json(doc);
+//     }else {
+//       console.log(err);
+//     }
+//   })
+// })
