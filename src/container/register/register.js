@@ -1,4 +1,5 @@
 import React from 'react'
+import {Redirect} from 'react-router-dom'
 import Logo from '../../component/logo/logo'
 import {WhiteSpace,WingBlank,InputItem,List,Button,Radio} from 'antd-mobile'
 import {connect} from 'react-redux'
@@ -37,6 +38,7 @@ class Register extends React.Component {
   render() {
     return (
         <div>
+          {this.props.redirectTo? <Redirect to={this.props.redirectTo}/> : null}
           <Logo/>
           <h1 style={{textAlign:'center'}}>Register</h1>
           <WingBlank>
