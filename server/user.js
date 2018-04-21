@@ -5,9 +5,6 @@ const model = require('./model')
 const User = model.getModel('user')
 const _filter = {'pwd':0,'__v':0}
 
-
-
-
 Router.post('/register',function(req,res) {
   const {user,pwd,type} = req.body
   User.findOne({user:user},function(err,doc) {
@@ -42,6 +39,25 @@ Router.post('/login',function(req,res) {
       return res.json({code:0,data:doc})
     }else {
       return res.json({code:1,msg:'用户名或密码错误'})
+    }
+  })
+})
+
+Router.post('/update',function(req,res) {
+  const userid = req.cookies.userid
+  if(!userid) {
+    return res.json({code:1,msg:'请重新登录'})
+  }
+  const body = req.body
+  User.findByIdAndUpdate(userid,body,function(err,doc) {
+    if(!err && doc) {
+      const data =Object.assign({},{
+        user: doc.user,
+        type:doc.type
+      },body)
+      return res.json({code:0,data})
+    }else {
+      return res.json({code:1,msg:'错误'})
     }
   })
 })

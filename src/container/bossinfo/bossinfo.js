@@ -1,8 +1,16 @@
 import React from 'react'
+import {Redirect} from 'react-router-dom'
 import {NavBar} from 'antd-mobile'
 import {WhiteSpace,WingBlank,InputItem,List,Button,TextareaItem } from 'antd-mobile'
+import {connect} from 'react-redux'
 
 import AvatarSelector from '../../component/avatar-selector/avatar-selector'
+import {update} from '../../redux/user.redux'
+
+@connect(
+    state => state.user,
+    {update}
+)
 
 class BossInfo extends React.Component {
   constructor(props) {
@@ -14,7 +22,7 @@ class BossInfo extends React.Component {
   }
   avatarSelector(data) {
     console.log(data)
-    this.setState({...data})
+    this.setState({avatar:data})
   }
   handleChange(key,value) {
     console.log(key+" "+value)
@@ -24,10 +32,13 @@ class BossInfo extends React.Component {
   }
   handleSave() {
     console.log(this.state)
+    this.props.update(this.state)
   }
   render() {
+    const pathname = this.props.pathname
     return(
         <div>
+          {this.props.redirectTo && this.props.redirectTo !==pathname? <Redirect to={this.props.redirectTo}/> : null}
           <NavBar mode={'dark'}>BOSS完善信息</NavBar>
           <WingBlank>
             <AvatarSelector data={this.state} avatarSelector ={this.avatarSelector}/>
