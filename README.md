@@ -29,3 +29,5 @@
           ]
         ]
 ```
+
+3. mongodb 启动  `mongod --dbpath \data\db`
